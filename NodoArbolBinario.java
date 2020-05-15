@@ -46,4 +46,9 @@ public class NodoArbolBinario<T> {
 	public NodoArbolBinario<T> getIzquierda() {
 		return izquierda;
 	}
+	
+	@Override
+	public String toString() {
+		return "(" + getLlave() + ", " + contenido.toString() + ")";
+	}
 }

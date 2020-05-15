@@ -1,4 +1,4 @@
-public class ArbolBinario <T>{
+public class ArbolBinario <T> {
 	private NodoArbolBinario<T> raiz;
 	
 	public ArbolBinario() {
@@ -31,6 +31,47 @@ public class ArbolBinario <T>{
 		}
 	}
 	
+	public NodoArbolBinario<T> getByIndex(int index) {
+		return getByIndex(raiz, index);
+	}
+	public NodoArbolBinario<T> getByIndex(NodoArbolBinario<T> raiz, int index) {
+		if(raiz == null)
+			return null;
+		NodoArbolBinario<T> auxiliar = raiz;
+		while(index != auxiliar.getLlave()) {
+			if(index > auxiliar.getLlave())
+				auxiliar = auxiliar.getDerecha();
+			else
+				auxiliar = auxiliar.getIzquierda();
+			if(auxiliar == null)
+				return null;
+		}
+		return auxiliar;
+	}
+
+	public NodoArbolBinario<T> getByContent(T contenido) {
+		return getByContent(raiz, raiz, contenido);
+	}
+	public NodoArbolBinario<T> getByContent(NodoArbolBinario<T> raiz, T contenido) {
+		return getByContent(raiz, raiz, contenido);
+	}
+	private NodoArbolBinario<T> getByContent(NodoArbolBinario<T> nodo, NodoArbolBinario<T> nodoCorrecto, T contenido) {
+		if(nodo != null) {
+			if(nodo.getContenido().equals(contenido))
+				return nodo;
+			nodoCorrecto = getByContent(nodo.getIzquierda(), contenido);
+			if(nodoCorrecto != null)
+				if(nodoCorrecto.getContenido().equals(contenido))
+					return nodoCorrecto;
+			nodoCorrecto = getByContent(nodo.getDerecha(), contenido);
+		}
+		return nodoCorrecto;
+	}
+
+	public boolean isEmpty() {
+		return raiz == null;
+	}
+	
 	public NodoArbolBinario<T> getRaiz() {
 		return raiz;
 	}
@@ -41,20 +82,21 @@ public class ArbolBinario <T>{
 
 	// infijo = inorden
 	public void recorridoInfijo(NodoArbolBinario<T> nodo) {
-		recorridoInfijo(nodo, obtenerLlaveDelUltimoNodoDeUnSubarbol(-1, nodo));
+		int llaveDelUltimoNodo = obtenerLlaveDelUltimoNodoDeUnSubarbol(-1, nodo),
+			profundidadDeLaRaiz = profundidadDeUnNodo(nodo);
+		recorridoInfijo(nodo, llaveDelUltimoNodo, profundidadDeLaRaiz);
 	}
-	
-	public void recorridoInfijo(NodoArbolBinario<T> nodo, int llaveDelUltimoNodo) {
+	public void recorridoInfijo(NodoArbolBinario<T> nodo, int llaveDelUltimoNodo, int profundidadDeLaRaiz) {
 		if(nodo != null) {
-			recorridoInfijo(nodo.getIzquierda(), llaveDelUltimoNodo);
+			recorridoInfijo(nodo.getIzquierda(), llaveDelUltimoNodo, profundidadDeLaRaiz);
 			if(nodo.getLlave() == llaveDelUltimoNodo)
 				System.out.print("└─");
 			else
 				System.out.print("├─");
-			for(int i = 1 ; i < profundidadDeUnNodo(nodo) ; i++)
+			for(int i = 0 ; i < profundidadDeUnNodo(nodo) - profundidadDeLaRaiz; i++)
 				System.out.print("──");
 			System.out.println(" Llave: " + nodo.getLlave() + ", valor: " + nodo.getContenido());
-			recorridoInfijo(nodo.getDerecha(), llaveDelUltimoNodo);
+			recorridoInfijo(nodo.getDerecha(), llaveDelUltimoNodo, profundidadDeLaRaiz);
 		}
 	}
 	

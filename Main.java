@@ -16,5 +16,35 @@ public class Index {
 		
 		System.out.println("\n\nIzquierda");
 		arbol.recorridoInfijo(arbol.getRaiz().getIzquierda());
+		
+		System.out.println("\nMétodos get funcionando");
+		
+		Object nodos [] = new Object[] {
+			arbol.getByContent("Uva"),
+			arbol.getByContent("Pera"),
+			arbol.getByContent("Naranja"),
+			arbol.getByContent("Sandía"),
+			arbol.getByContent("Platano"),
+			arbol.getByContent("Manzana"),
+			arbol.getByContent("Sandia"),
+		};
+		for(Object nodo: nodos) {
+			nodo = nodo == null ? "nulo" : nodo;
+			System.out.println("	Por contenido: " + nodo);
+		}
+		
+		nodos = new Object[] {
+			arbol.getByIndex(1),
+			arbol.getByIndex(4),
+			arbol.getByIndex(2),
+			arbol.getByIndex(9),
+			arbol.getByIndex(7),
+			arbol.getByIndex(8),
+		};
+		System.out.println();
+		for(Object nodo: nodos) {
+			nodo = nodo == null ? "nulo" : nodo;
+			System.out.println("	Por índice: " + nodo);
+		}
 	}
 }
